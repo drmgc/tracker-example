@@ -1,9 +1,16 @@
 import express, { Express, Request, Response } from 'express';
+import cors from 'cors';
+
 
 export const bootstrap = (port: number) => {
   const app: Express = express();
 
-  app.get('/', (req: Request, res: Response) => {
+  app.use(cors({
+    origin: 'http://localhost:8000',
+  }))
+  app.use(express.json())
+
+  app.get('/', (_: Request, res: Response) => {
     res.sendFile(__dirname + '/tracker.js')
   });
 
