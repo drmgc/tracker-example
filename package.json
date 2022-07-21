@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prettier": "prettier --config .prettierrc '*.ts' --write",
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
@@ -23,6 +24,7 @@
     "@types/node": "^18.0.6",
     "concurrently": "^7.2.2",
     "nodemon": "^2.0.19",
+    "prettier": "^2.7.1",
     "typescript": "^4.7.4"
   }
 }
