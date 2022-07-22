@@ -18,6 +18,7 @@ export const bootstrap = async (port: number) => {
   app.use(
     cors({
       origin: 'http://localhost:8000',
+      maxAge: 300, // Avoids preflight on every request
     }),
   );
   app.use(express.json());
@@ -28,10 +29,6 @@ export const bootstrap = async (port: number) => {
 
   app.post(
     '/track',
-    cors({
-      methods: 'POST',
-      // TODO: maxAge to avoid CORS preflight
-    }),
     async (req: Request, res: Response) => {
       if (!Array.isArray(req.body)) throw new BadRequestException('Array of events was expected');
 
