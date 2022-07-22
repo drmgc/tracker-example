@@ -4,7 +4,7 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 
 import { HttpException, BadRequestException } from './http-exception';
-import { TrackerEvent, validateTrackerEvent } from './tracker-event';
+import { TrackDto, validateTrackDto } from './dto/track.dto';
 
 import { TracksService } from './tracks.service';
 
@@ -35,8 +35,8 @@ export const bootstrap = async (port: number) => {
     async (req: Request, res: Response) => {
       if (!Array.isArray(req.body)) throw new BadRequestException('Array of events was expected');
 
-      req.body.forEach((e: Partial<TrackerEvent>, i: number) => {
-        const [ok, problems] = validateTrackerEvent(e);
+      req.body.forEach((e: Partial<TrackDto>, i: number) => {
+        const [ok, problems] = validateTrackDto(e);
 
         if (!ok) throw new BadRequestException(`Event #${i}: ${problems}`);
       });

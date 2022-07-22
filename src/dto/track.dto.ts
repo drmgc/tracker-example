@@ -1,4 +1,4 @@
-export interface TrackerEvent {
+export interface TrackDto {
   event: string;
   tags: string[];
   url: string;
@@ -6,10 +6,10 @@ export interface TrackerEvent {
   title: string;
 }
 
-export function validateTrackerEvent(e: unknown): [true, null] | [false, string] {
+export function validateTrackDto(e: unknown): [true, null] | [false, string] {
   if (typeof e != 'object') return [false, `An object is expected`];
 
-  const { event, tags, url, ts, title } = <Partial<TrackerEvent>>e;
+  const { event, tags, url, ts, title } = <Partial<TrackDto>>e;
   if (typeof event !== 'string') return [false, `Event name is expected`];
   if (!event || event.length > 32) return [false, `Event name should be 1 to 32 symbols long`];
 
