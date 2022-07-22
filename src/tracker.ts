@@ -48,6 +48,7 @@ class Tracker implements Tracker {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(pickedEvents),
+      keepalive: true, // Lets us to send request even after the page has been closed
     })
       .then((res: Response) => res.ok)
       .catch(() => false);
