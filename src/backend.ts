@@ -1,11 +1,15 @@
+import { connect as connectMongo } from 'mongoose';
+
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 
 import { HttpException, BadRequestException } from './http-exception';
 import { TrackerEvent, validateTrackerEvent } from './tracker-event';
 
-export const bootstrap = (port: number) => {
+export const bootstrap = async (port: number) => {
   const app: Express = express();
+
+  await connectMongo(process.env.MONGOOSE_URL || 'mongodb://localhost:27017/tracker');
 
   app.use(
     cors({
