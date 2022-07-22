@@ -6,10 +6,14 @@ import cors from 'cors';
 import { HttpException, BadRequestException } from './http-exception';
 import { TrackerEvent, validateTrackerEvent } from './tracker-event';
 
+import { TracksService } from './tracks.service';
+
 export const bootstrap = async (port: number) => {
   const app: Express = express();
 
   await connectMongo(process.env.MONGOOSE_URL || 'mongodb://localhost:27017/tracker');
+
+  const tracksService = new TracksService();
 
   app.use(
     cors({
@@ -28,7 +32,7 @@ export const bootstrap = async (port: number) => {
       methods: 'POST',
       // TODO: maxAge to avoid CORS preflight
     }),
-    (req: Request, res: Response) => {
+    async (req: Request, res: Response) => {
       if (!Array.isArray(req.body)) throw new BadRequestException('Array of events was expected');
 
       req.body.forEach((e: Partial<TrackerEvent>, i: number) => {
@@ -40,7 +44,18 @@ export const bootstrap = async (port: number) => {
       const events: TrackerEvent[] = req.body;
 
       res.sendStatus(200);
-      console.log('tracking', events);
+
+      await Promise.all(
+        events.map(({ event, tags, url, ts, title }) =>
+          tracksService.create({
+            event,
+            tags,
+            url,
+            title,
+            ts: new Date(ts),
+          }),
+        ),
+      );
     },
   );
 
