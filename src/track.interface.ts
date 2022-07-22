@@ -1,3 +1,5 @@
+// tracker.interface.ts -- Internal interface of a track
+
 import { Types } from 'mongoose';
 
 export interface ITrack {

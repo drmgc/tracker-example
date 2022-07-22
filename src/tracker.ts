@@ -1,3 +1,5 @@
+// tracker.ts -- Client-side code
+
 interface TrackerEvent {
   event: string;
   tags: string[];

@@ -1,3 +1,5 @@
+// track.dto.ts -- API's data transfer object of a track.
+
 export interface TrackDto {
   event: string;
   tags: string[];

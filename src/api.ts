@@ -1,3 +1,5 @@
+// api.ts -- API routes of backend service.
+
 import express, { Express, Request, Response, NextFunction, Router } from 'express';
 
 import cors from 'cors';

@@ -1,3 +1,5 @@
+// backend.ts -- Basic setup of the backend service
+
 import { connect as connectMongo } from 'mongoose';
 
 import express, { Express, Request, Response, NextFunction } from 'express';

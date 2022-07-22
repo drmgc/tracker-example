@@ -1,3 +1,5 @@
+// track.ts -- Mongoose model of a Track
+
 import { Schema, model } from 'mongoose';
 
 import { ITrack } from '../track.interface';

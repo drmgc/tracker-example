@@ -1,3 +1,6 @@
+// index.ts - Launches backend and frontend services. Makes basic
+// setups.
+
 import path from 'path';
 
 import express, { Express, Request, Response } from 'express';
