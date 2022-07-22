@@ -27,34 +27,31 @@ export const bootstrap = async (port: number) => {
     res.sendFile(__dirname + '/tracker.js');
   });
 
-  app.post(
-    '/track',
-    async (req: Request, res: Response) => {
-      if (!Array.isArray(req.body)) throw new BadRequestException('Array of events was expected');
+  app.post('/track', async (req: Request, res: Response) => {
+    if (!Array.isArray(req.body)) throw new BadRequestException('Array of events was expected');
 
-      req.body.forEach((e: Partial<TrackDto>, i: number) => {
-        const [ok, problems] = validateTrackDto(e);
+    req.body.forEach((e: Partial<TrackDto>, i: number) => {
+      const [ok, problems] = validateTrackDto(e);
 
-        if (!ok) throw new BadRequestException(`Event #${i}: ${problems}`);
-      });
+      if (!ok) throw new BadRequestException(`Event #${i}: ${problems}`);
+    });
 
-      const events: TrackerEvent[] = req.body;
+    const events: TrackerEvent[] = req.body;
 
-      res.sendStatus(200);
+    res.sendStatus(200);
 
-      await Promise.all(
-        events.map(({ event, tags, url, ts, title }) =>
-          tracksService.create({
-            event,
-            tags,
-            url,
-            title,
-            ts: new Date(ts),
-          }),
-        ),
-      );
-    },
-  );
+    await Promise.all(
+      events.map(({ event, tags, url, ts, title }) =>
+        tracksService.create({
+          event,
+          tags,
+          url,
+          title,
+          ts: new Date(ts),
+        }),
+      ),
+    );
+  });
 
   app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
     if (!(err instanceof HttpException)) return next(err);
